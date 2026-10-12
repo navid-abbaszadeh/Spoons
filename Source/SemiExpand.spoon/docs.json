@@ -1,0 +1,596 @@
+[
+  {
+    "Constant" : [
+
+    ],
+    "submodules" : [
+
+    ],
+    "Function" : [
+
+    ],
+    "Variable" : [
+      {
+        "desc" : "The folder with the expansion files. Default: `$XDG_CONFIG_HOME\/semiexpand` if that",
+        "doc" : "The folder with the expansion files. Default: `$XDG_CONFIG_HOME\/semiexpand` if that\nvariable is set for Hammerspoon, otherwise `~\/.config\/semiexpand`.",
+        "stripped_doc" : [
+          "The folder with the expansion files. Default: `$XDG_CONFIG_HOME\/semiexpand` if that",
+          "variable is set for Hammerspoon, otherwise `~\/.config\/semiexpand`."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.directory",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.directory",
+        "name" : "directory"
+      },
+      {
+        "desc" : "The expansion files, each `{ file = path, prefix = string, optional = bool }`. A",
+        "doc" : "The expansion files, each `{ file = path, prefix = string, optional = bool }`. A\nrelative `file` is inside `directory`. Prefixes are made of the trigger character (`;`,\n`;;`, …). An optional file that doesn't exist is skipped silently. Default:\n * `expansions.md` with `;`\n * `personal.md` with `;;`, optional",
+        "stripped_doc" : [
+          "The expansion files, each `{ file = path, prefix = string, optional = bool }`. A",
+          "relative `file` is inside `directory`. Prefixes are made of the trigger character (`;`,",
+          "`;;`, …). An optional file that doesn't exist is skipped silently. Default:",
+          " * `expansions.md` with `;`",
+          " * `personal.md` with `;;`, optional"
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.sets",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.sets",
+        "name" : "sets"
+      },
+      {
+        "desc" : "The character that starts an abbreviation. Default `\";\"`.",
+        "doc" : "The character that starts an abbreviation. Default `\";\"`.",
+        "stripped_doc" : [
+          "The character that starts an abbreviation. Default `\";\"`."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.trigger",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.trigger",
+        "name" : "trigger"
+      },
+      {
+        "desc" : "The character that expands or opens the picker after a partial name. Default `\" \"`.",
+        "doc" : "The character that expands or opens the picker after a partial name. Default `\" \"`.",
+        "stripped_doc" : [
+          "The character that expands or opens the picker after a partial name. Default `\" \"`."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.pickerKey",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.pickerKey",
+        "name" : "pickerKey"
+      },
+      {
+        "desc" : "A partial name shorter than this (not counting the prefix) only expands when it is a",
+        "doc" : "A partial name shorter than this (not counting the prefix) only expands when it is a\ncomplete abbreviation, so a stray `;q` in normal text doesn't turn into something.\nDefault 2.",
+        "stripped_doc" : [
+          "A partial name shorter than this (not counting the prefix) only expands when it is a",
+          "complete abbreviation, so a stray `;q` in normal text doesn't turn into something.",
+          "Default 2."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.minUniqueChars",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.minUniqueChars",
+        "name" : "minUniqueChars"
+      },
+      {
+        "desc" : "After this pause while typing a name, a complete `;name` expands and anything else is",
+        "doc" : "After this pause while typing a name, a complete `;name` expands and anything else is\nleft as typed. Default 1.",
+        "stripped_doc" : [
+          "After this pause while typing a name, a complete `;name` expands and anything else is",
+          "left as typed. Default 1."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.pauseSeconds",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.pauseSeconds",
+        "name" : "pauseSeconds"
+      },
+      {
+        "desc" : "After an early expansion, the rest of the name is swallowed while it keeps coming",
+        "doc" : "After an early expansion, the rest of the name is swallowed while it keeps coming\nwithin this many seconds. Default 2.",
+        "stripped_doc" : [
+          "After an early expansion, the rest of the name is swallowed while it keeps coming",
+          "within this many seconds. Default 2."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.restSeconds",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.restSeconds",
+        "name" : "restSeconds"
+      },
+      {
+        "desc" : "Show an alert when an expansions file is reloaded after a save. Default true.",
+        "doc" : "Show an alert when an expansions file is reloaded after a save. Default true.",
+        "stripped_doc" : [
+          "Show an alert when an expansions file is reloaded after a save. Default true."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.alertOnReload",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.alertOnReload",
+        "name" : "alertOnReload"
+      },
+      {
+        "desc" : "Picker appearance: `{ width = percent, rows = n, placeholder = text, matchColor = color,",
+        "doc" : "Picker appearance: `{ width = percent, rows = n, placeholder = text, matchColor = color,\ntiles = bool }`.",
+        "stripped_doc" : [
+          "Picker appearance: `{ width = percent, rows = n, placeholder = text, matchColor = color,",
+          "tiles = bool }`."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.picker",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.picker",
+        "name" : "picker"
+      }
+    ],
+    "stripped_doc" : [
+
+    ],
+    "Deprecated" : [
+
+    ],
+    "desc" : "Text expansions typed as `;name`, read from plain-text files.",
+    "type" : "Module",
+    "Constructor" : [
+
+    ],
+    "doc" : "Text expansions typed as `;name`, read from plain-text files.\n\n* An abbreviation expands as soon as what you typed starts only it: when complete, or\n  from `minUniqueChars` letters on (`;keyb` → ⌨️; the rest of the name, if typed on,\n  is swallowed). One that several abbreviations start with (`;pi` vs `;pin`) waits.\n* The picker key (space) after `;name` expands it; after a partial name that starts\n  only one abbreviation, expands that one; after any other partial name with matches,\n  opens a searchable picker (by name, text or section).\n* A short pause ends the word: a complete `;name` expands, anything else is left as typed.\n* Esc right after `;` types the text literally (`;⎋done` → `;done`).\n\nEach file in `sets` has its own prefix (e.g. `;` and `;;`), and a word is only looked\nup in the set with the longest matching prefix. File format, one entry per line:\n  name [name…] \"text\"     names share the text, written without the prefix\n  # Section               starts a searchable section\n  \/\/ comment\n\nNeeds Accessibility access for Hammerspoon. Keystrokes typed while macOS secure input\nis on (password fields) can't be seen, so nothing expands then.\n\nDownload: [https:\/\/github.com\/navid-abbaszadeh\/Spoons\/raw\/main\/Spoons\/SemiExpand.spoon.zip](https:\/\/github.com\/navid-abbaszadeh\/Spoons\/raw\/main\/Spoons\/SemiExpand.spoon.zip)",
+    "Method" : [
+      {
+        "desc" : "Called by hs.loadSpoon; nothing runs until :start().",
+        "doc" : "Called by hs.loadSpoon; nothing runs until :start().\n\nParameters:\n * None\n\nReturns:\n * The SemiExpand object",
+        "stripped_doc" : [
+          "Called by hs.loadSpoon; nothing runs until :start().",
+          ""
+        ],
+        "parameters" : [
+          " * None",
+          ""
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand:init()",
+        "type" : "Method",
+        "returns" : [
+          " * The SemiExpand object"
+        ],
+        "def" : "SemiExpand:init()",
+        "name" : "init"
+      },
+      {
+        "desc" : "Loads the files, watches them for changes and starts expanding. Calling it again",
+        "doc" : "Loads the files, watches them for changes and starts expanding. Calling it again\nrestarts with the current settings.\n\nParameters:\n * None\n\nReturns:\n * The SemiExpand object",
+        "stripped_doc" : [
+          "Loads the files, watches them for changes and starts expanding. Calling it again",
+          "restarts with the current settings.",
+          ""
+        ],
+        "parameters" : [
+          " * None",
+          ""
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand:start()",
+        "type" : "Method",
+        "returns" : [
+          " * The SemiExpand object"
+        ],
+        "def" : "SemiExpand:start()",
+        "name" : "start"
+      },
+      {
+        "desc" : "Stops expanding and watching the files.",
+        "doc" : "Stops expanding and watching the files.\n\nParameters:\n * None\n\nReturns:\n * The SemiExpand object",
+        "stripped_doc" : [
+          "Stops expanding and watching the files.",
+          ""
+        ],
+        "parameters" : [
+          " * None",
+          ""
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand:stop()",
+        "type" : "Method",
+        "returns" : [
+          " * The SemiExpand object"
+        ],
+        "def" : "SemiExpand:stop()",
+        "name" : "stop"
+      },
+      {
+        "desc" : "Whether the Spoon is expanding.",
+        "doc" : "Whether the Spoon is expanding.\n\nParameters:\n * None\n\nReturns:\n * true while expanding, false otherwise",
+        "stripped_doc" : [
+          "Whether the Spoon is expanding.",
+          ""
+        ],
+        "parameters" : [
+          " * None",
+          ""
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand:isRunning()",
+        "type" : "Method",
+        "returns" : [
+          " * true while expanding, false otherwise"
+        ],
+        "def" : "SemiExpand:isRunning()",
+        "name" : "isRunning"
+      }
+    ],
+    "items" : [
+      {
+        "desc" : "Show an alert when an expansions file is reloaded after a save. Default true.",
+        "doc" : "Show an alert when an expansions file is reloaded after a save. Default true.",
+        "stripped_doc" : [
+          "Show an alert when an expansions file is reloaded after a save. Default true."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.alertOnReload",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.alertOnReload",
+        "name" : "alertOnReload"
+      },
+      {
+        "desc" : "The folder with the expansion files. Default: `$XDG_CONFIG_HOME\/semiexpand` if that",
+        "doc" : "The folder with the expansion files. Default: `$XDG_CONFIG_HOME\/semiexpand` if that\nvariable is set for Hammerspoon, otherwise `~\/.config\/semiexpand`.",
+        "stripped_doc" : [
+          "The folder with the expansion files. Default: `$XDG_CONFIG_HOME\/semiexpand` if that",
+          "variable is set for Hammerspoon, otherwise `~\/.config\/semiexpand`."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.directory",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.directory",
+        "name" : "directory"
+      },
+      {
+        "desc" : "A partial name shorter than this (not counting the prefix) only expands when it is a",
+        "doc" : "A partial name shorter than this (not counting the prefix) only expands when it is a\ncomplete abbreviation, so a stray `;q` in normal text doesn't turn into something.\nDefault 2.",
+        "stripped_doc" : [
+          "A partial name shorter than this (not counting the prefix) only expands when it is a",
+          "complete abbreviation, so a stray `;q` in normal text doesn't turn into something.",
+          "Default 2."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.minUniqueChars",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.minUniqueChars",
+        "name" : "minUniqueChars"
+      },
+      {
+        "desc" : "After this pause while typing a name, a complete `;name` expands and anything else is",
+        "doc" : "After this pause while typing a name, a complete `;name` expands and anything else is\nleft as typed. Default 1.",
+        "stripped_doc" : [
+          "After this pause while typing a name, a complete `;name` expands and anything else is",
+          "left as typed. Default 1."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.pauseSeconds",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.pauseSeconds",
+        "name" : "pauseSeconds"
+      },
+      {
+        "desc" : "Picker appearance: `{ width = percent, rows = n, placeholder = text, matchColor = color,",
+        "doc" : "Picker appearance: `{ width = percent, rows = n, placeholder = text, matchColor = color,\ntiles = bool }`.",
+        "stripped_doc" : [
+          "Picker appearance: `{ width = percent, rows = n, placeholder = text, matchColor = color,",
+          "tiles = bool }`."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.picker",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.picker",
+        "name" : "picker"
+      },
+      {
+        "desc" : "The character that expands or opens the picker after a partial name. Default `\" \"`.",
+        "doc" : "The character that expands or opens the picker after a partial name. Default `\" \"`.",
+        "stripped_doc" : [
+          "The character that expands or opens the picker after a partial name. Default `\" \"`."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.pickerKey",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.pickerKey",
+        "name" : "pickerKey"
+      },
+      {
+        "desc" : "After an early expansion, the rest of the name is swallowed while it keeps coming",
+        "doc" : "After an early expansion, the rest of the name is swallowed while it keeps coming\nwithin this many seconds. Default 2.",
+        "stripped_doc" : [
+          "After an early expansion, the rest of the name is swallowed while it keeps coming",
+          "within this many seconds. Default 2."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.restSeconds",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.restSeconds",
+        "name" : "restSeconds"
+      },
+      {
+        "desc" : "The expansion files, each `{ file = path, prefix = string, optional = bool }`. A",
+        "doc" : "The expansion files, each `{ file = path, prefix = string, optional = bool }`. A\nrelative `file` is inside `directory`. Prefixes are made of the trigger character (`;`,\n`;;`, …). An optional file that doesn't exist is skipped silently. Default:\n * `expansions.md` with `;`\n * `personal.md` with `;;`, optional",
+        "stripped_doc" : [
+          "The expansion files, each `{ file = path, prefix = string, optional = bool }`. A",
+          "relative `file` is inside `directory`. Prefixes are made of the trigger character (`;`,",
+          "`;;`, …). An optional file that doesn't exist is skipped silently. Default:",
+          " * `expansions.md` with `;`",
+          " * `personal.md` with `;;`, optional"
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.sets",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.sets",
+        "name" : "sets"
+      },
+      {
+        "desc" : "The character that starts an abbreviation. Default `\";\"`.",
+        "doc" : "The character that starts an abbreviation. Default `\";\"`.",
+        "stripped_doc" : [
+          "The character that starts an abbreviation. Default `\";\"`."
+        ],
+        "parameters" : [
+
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand.trigger",
+        "type" : "Variable",
+        "returns" : [
+
+        ],
+        "def" : "SemiExpand.trigger",
+        "name" : "trigger"
+      },
+      {
+        "desc" : "Called by hs.loadSpoon; nothing runs until :start().",
+        "doc" : "Called by hs.loadSpoon; nothing runs until :start().\n\nParameters:\n * None\n\nReturns:\n * The SemiExpand object",
+        "stripped_doc" : [
+          "Called by hs.loadSpoon; nothing runs until :start().",
+          ""
+        ],
+        "parameters" : [
+          " * None",
+          ""
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand:init()",
+        "type" : "Method",
+        "returns" : [
+          " * The SemiExpand object"
+        ],
+        "def" : "SemiExpand:init()",
+        "name" : "init"
+      },
+      {
+        "desc" : "Whether the Spoon is expanding.",
+        "doc" : "Whether the Spoon is expanding.\n\nParameters:\n * None\n\nReturns:\n * true while expanding, false otherwise",
+        "stripped_doc" : [
+          "Whether the Spoon is expanding.",
+          ""
+        ],
+        "parameters" : [
+          " * None",
+          ""
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand:isRunning()",
+        "type" : "Method",
+        "returns" : [
+          " * true while expanding, false otherwise"
+        ],
+        "def" : "SemiExpand:isRunning()",
+        "name" : "isRunning"
+      },
+      {
+        "desc" : "Loads the files, watches them for changes and starts expanding. Calling it again",
+        "doc" : "Loads the files, watches them for changes and starts expanding. Calling it again\nrestarts with the current settings.\n\nParameters:\n * None\n\nReturns:\n * The SemiExpand object",
+        "stripped_doc" : [
+          "Loads the files, watches them for changes and starts expanding. Calling it again",
+          "restarts with the current settings.",
+          ""
+        ],
+        "parameters" : [
+          " * None",
+          ""
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand:start()",
+        "type" : "Method",
+        "returns" : [
+          " * The SemiExpand object"
+        ],
+        "def" : "SemiExpand:start()",
+        "name" : "start"
+      },
+      {
+        "desc" : "Stops expanding and watching the files.",
+        "doc" : "Stops expanding and watching the files.\n\nParameters:\n * None\n\nReturns:\n * The SemiExpand object",
+        "stripped_doc" : [
+          "Stops expanding and watching the files.",
+          ""
+        ],
+        "parameters" : [
+          " * None",
+          ""
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SemiExpand:stop()",
+        "type" : "Method",
+        "returns" : [
+          " * The SemiExpand object"
+        ],
+        "def" : "SemiExpand:stop()",
+        "name" : "stop"
+      }
+    ],
+    "Field" : [
+
+    ],
+    "Command" : [
+
+    ],
+    "name" : "SemiExpand"
+  }
+]
