@@ -143,23 +143,50 @@ Set these before `:start()`:
 | `alertOnReload` | `true` | alert when a file is reloaded |
 | `picker` | width 36, 9 rows, tiles on | `{ width, rows, placeholder, matchColor, tiles }` |
 
-Example with a third file, typed as `;;;name`:
+### Adding a file with its own prefix
 
-```lua
-hs.loadSpoon("SemiExpand")
-spoon.SemiExpand.sets = {
-  { file = "expansions.md", prefix = ";" },
-  { file = "personal.md", prefix = ";;", optional = true },
-  { file = "work.md", prefix = ";;;", optional = true },
-}
-spoon.SemiExpand:start()
-```
+Say you want work snippets in their own file, typed as `;;;name`:
+
+1. Create `work.md` next to `expansions.md`, in the same format:
+
+   ```
+   # Work
+   standup "Yesterday:\nToday:\nBlockers:"
+   addr "Example Corp, 1 Main Street"
+   ```
+
+2. List it in `sets`. Setting `sets` replaces the defaults, so keep the two files you
+   already use:
+
+   ```lua
+   hs.loadSpoon("SemiExpand")
+   spoon.SemiExpand.sets = {
+     { file = "expansions.md", prefix = ";" },
+     { file = "personal.md", prefix = ";;", optional = true },
+     { file = "work.md", prefix = ";;;", optional = true },
+   }
+   spoon.SemiExpand:start()
+   ```
+
+   With SpoonInstall, pass the same list as `config = { sets = { … } }` to `andUse`.
+
+3. Reload Hammerspoon. Now:
+
+   | You type | Result |
+   |---|---|
+   | `;;;standup` | expands from `work.md` |
+   | `;;;` then space, at the start of a word | opens the picker with only the `work.md` entries |
+   | `;standup` or `;;standup` | nothing: `;` only looks in `expansions.md`, `;;` only in `personal.md` |
+
+   Names only have to be unique within their file: `;addr` and `;;;addr` can expand to
+   different texts. `optional = true` means Hammerspoon starts fine while `work.md` doesn't
+   exist yet; once you create it, it's picked up without a reload.
 
 ### Prefixes
 
 Every prefix is the trigger character repeated: `;`, `;;`, `;;;` and so on, as many files
-as you like. A name is looked up only in the file with the longest prefix that matches, so
-`;;;foo` searches `work.md` alone and each file's entries stay out of the other pickers.
+as you like. A name is looked up only in the file with the longest prefix that matches:
+`;;;standup` belongs to `work.md` even though it also starts with `;` and `;;`.
 
 Prefixes can't mix characters. `trigger = "?"` works, but then every prefix must be `?`,
 `??`, …; `;` for one file and `?` for another isn't possible, because the Spoon watches
