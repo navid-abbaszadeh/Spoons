@@ -126,6 +126,17 @@ spoon.SemiExpand.sets = {
 spoon.SemiExpand:start()
 ```
 
+### Prefixes
+
+Every prefix is the trigger character repeated: `;`, `;;`, `;;;` and so on, as many files
+as you like. A name is looked up only in the file with the longest prefix that matches, so
+`;;;foo` searches `work.md` alone and each file's entries stay out of the other pickers.
+
+Prefixes can't mix characters. `trigger = "?"` works, but then every prefix must be `?`,
+`??`, …; `;` for one file and `?` for another isn't possible, because the Spoon watches
+for one trigger character. A prefix that isn't made of the trigger stops `:start()` with
+an error.
+
 ## Limitations
 
 - While macOS **secure input** is on (password fields, some password managers, Terminal's
