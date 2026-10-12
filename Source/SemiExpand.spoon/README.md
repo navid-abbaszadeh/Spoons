@@ -20,16 +20,45 @@ and a searchable picker helps when you don't remember a name.
 Download [SemiExpand.spoon.zip](https://github.com/navid-abbaszadeh/Spoons/raw/main/Spoons/SemiExpand.spoon.zip),
 unzip it and double-click `SemiExpand.spoon` (or copy it to `~/.hammerspoon/Spoons/`).
 
-Or with [SpoonInstall](https://www.hammerspoon.org/Spoons/SpoonInstall.html):
+Or with [SpoonInstall](https://www.hammerspoon.org/Spoons/SpoonInstall.html), which
+downloads it the first time your config runs:
 
 ```lua
+hs.loadSpoon("SpoonInstall")
 spoon.SpoonInstall.repos.nvd = {
   url = "https://github.com/navid-abbaszadeh/Spoons",
   desc = "navid-abbaszadeh's Spoons",
   branch = "main",
 }
-spoon.SpoonInstall:andUse("SemiExpand", { repo = "nvd", start = true })
+spoon.SpoonInstall:andUse("SemiExpand", {
+  repo = "nvd",
+  config = { pauseSeconds = 2 }, -- optional, any of the settings below
+  start = true,
+})
 ```
+
+`andUse` installs, configures and starts it in one call. To install it in one place and
+set it up in another (e.g. one file that installs all your Spoons), make SpoonInstall wait
+for the download, then load it as in Quick start:
+
+```lua
+hs.loadSpoon("SpoonInstall")
+spoon.SpoonInstall.use_syncinstall = true -- wait, so hs.loadSpoon below finds it
+spoon.SpoonInstall.repos.nvd = { … as above … }
+if not hs.spoons.isInstalled("SemiExpand") then
+  spoon.SpoonInstall:updateRepo("nvd")
+  spoon.SpoonInstall:installSpoonFromRepo("SemiExpand", "nvd")
+end
+
+-- later, e.g. in another file
+hs.loadSpoon("SemiExpand")
+spoon.SemiExpand.pauseSeconds = 2
+spoon.SemiExpand:start()
+```
+
+Without `use_syncinstall`, SpoonInstall downloads in the background, so on the first run
+`hs.loadSpoon` would come before the download finishes. SpoonInstall only downloads a Spoon
+that isn't installed yet: to update, delete `Spoons/SemiExpand.spoon` and reload.
 
 Hammerspoon needs **Accessibility** access (System Settings → Privacy & Security).
 
