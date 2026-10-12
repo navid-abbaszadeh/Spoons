@@ -4,7 +4,7 @@
 
 | Spoon | Version | |
 |---|---|---|
-| [SemiExpand](Source/SemiExpand.spoon) | 0.9.0 | Text expansions typed as `;name` from plain-text files, with a searchable picker |
+| [SemiExpand](Source/SemiExpand.spoon/README.md) | 0.9.0 | Text expansions typed as `;name` from plain-text files, with a searchable picker ([settings](Source/SemiExpand.spoon/README.md#settings)) |
 
 ## Installing
 
@@ -21,7 +21,7 @@ spoon.SpoonInstall:andUse("SemiExpand", { repo = "nvd", start = true })
 ```
 
 Or download a zip from [Spoons/](Spoons), unzip it and double-click the `.spoon` folder.
-Each Spoon's README has its setup and settings.
+Each Spoon has its own README with its setup and settings, linked from the table above.
 
 ## Layout
 
