@@ -1,0 +1,18 @@
+# Runs `make check` (see the Makefile): each Spoon's unit tests, and checks that every
+# Spoons/<Name>.spoon.zip matches its source and docs/docs.json lists every Spoon.
+# make docs can't run here (it needs Hammerspoon), so CI only checks its result.
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Lua
+        run: sudo apt-get update -q && sudo apt-get install -yq lua5.4
+      - run: make check LUA=lua5.4
